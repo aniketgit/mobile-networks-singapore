@@ -1,7 +1,9 @@
-package singapore.mobiledata.com.mobiledatasingapore;
+package singapore.mobiledata.com.mobiledatasingapore.view.activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import singapore.mobiledata.com.mobiledatasingapore.R;
 
 public class HomeActivity extends AppCompatActivity {
 
