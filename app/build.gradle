@@ -16,6 +16,10 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    packagingOptions{
+        exclude 'META-INF/rxjava.properties'
+    }
 }
 
 dependencies {
@@ -29,4 +33,11 @@ dependencies {
     //retrofit
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+
+    //mockito
+    testCompile 'org.mockito:mockito-core:2.6.8'
+
+    //rxjava
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex.rxjava2:rxjava:2.0.3'
 }

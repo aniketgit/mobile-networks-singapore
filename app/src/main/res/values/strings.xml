@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">MobileDataSIngapore</string>
+    <string name="fetching_data">Fetching Data</string>
 </resources>
