@@ -3,6 +3,25 @@ package singapore.mobiledata.com.mobiledatasingapore.model;
 
 public class MobileNetworksFinalUsage {
     private String quarter;
+    private String oldDataQuarter;
+
+    public String getOldDataQuarter() {
+        return oldDataQuarter;
+    }
+
+    public void setOldDataQuarter(String oldDataQuarter) {
+        this.oldDataQuarter = oldDataQuarter;
+    }
+
+    public int getIsQuarterDip() {
+        return isQuarterDip;
+    }
+
+    public void setIsQuarterDip(int isQuarterDip) {
+        this.isQuarterDip = isQuarterDip;
+    }
+
+    private int isQuarterDip;
 
     public String getQuarter() {
         return quarter;

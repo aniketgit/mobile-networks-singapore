@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -36,6 +37,17 @@ public class MobileDataUsageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         ListViewHolder listViewHolder = (ListViewHolder) holder;
         listViewHolder.textYear.setText(list.get(position).getQuarter());
         listViewHolder.textUsageDataYear.setText(list.get(position).getAddingQuartersData());
+        if(list.get(position).getIsQuarterDip()==-1){
+            listViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(context,context.getString(R.string.quarter_dip),Toast.LENGTH_LONG).show();
+                }
+            });
+        }else{
+            listViewHolder.imageView.setOnClickListener(null);
+
+        }
     }
 
     @Override
@@ -47,6 +59,7 @@ public class MobileDataUsageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
 
         public TextView textYear,textUsageDataYear;
+        private ImageView imageView;
 
 
         public ListViewHolder(View itemView) {
@@ -56,6 +69,7 @@ public class MobileDataUsageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
 
             textYear = (TextView) itemView.findViewById(R.id.tvYear);
             textUsageDataYear = (TextView) itemView.findViewById(R.id.tvYearData);
+            imageView=itemView.findViewById(R.id.imageViewClick);
 
 
 

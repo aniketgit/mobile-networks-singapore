@@ -6,6 +6,16 @@ public class MobileDataModel {
 
     private String help;
 
+    public String getGetOldDataInQuarter() {
+        return getOldDataInQuarter;
+    }
+
+    public void setGetOldDataInQuarter(String getOldDataInQuarter) {
+        this.getOldDataInQuarter = getOldDataInQuarter;
+    }
+
+    private String getOldDataInQuarter;
+
     public String getHelp() {
         return help;
     }

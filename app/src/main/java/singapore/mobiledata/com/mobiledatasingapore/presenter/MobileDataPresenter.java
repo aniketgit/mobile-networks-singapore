@@ -57,6 +57,13 @@ public class MobileDataPresenter {
         });
     }
 
+    /**
+     * (This method is use to filter the data from the server and shown in the list)
+     * @param mobileDataModel
+     * @return
+
+     */
+
     public void addQuartersInData(MobileDataModel mobileDataModel) {
         MobileNetworksFinalUsage mobileNetworksFinalUsage=null;
         List<MobileNetworksFinalUsage> mobileNetworksFinalUsageArrayList=new ArrayList<>();
@@ -64,7 +71,6 @@ public class MobileDataPresenter {
         for (int i = 0; i <= mobileDataModel.getResult().getRecords().size()-1 ; i++) {
 
             String key = mobileDataModel.getResult().getRecords().get(i).getQuarter().substring(0, 4);
-            Log.e("key",key);
             if (hashMap.containsKey(key)) {
                 List<MobileDataModel> list = hashMap.get(key);
                 list.add(mobileDataModel);
@@ -72,8 +78,14 @@ public class MobileDataPresenter {
 
                 BigDecimal convertToInt= new BigDecimal(mobileDataModel.getResult().getRecords().get(i).getVolume_of_mobile_data());;
                 BigDecimal convertToIntAnother= new BigDecimal(mobileNetworksFinalUsage.getAddingQuartersData());
-
                 mobileNetworksFinalUsage.setAddingQuartersData(String.valueOf(convertToInt.add(convertToIntAnother)));
+                BigDecimal compareToIntAnother= new BigDecimal(mobileNetworksFinalUsage.getOldDataQuarter());
+                if(mobileNetworksFinalUsage.getIsQuarterDip() != -1) {
+                    mobileNetworksFinalUsage.setIsQuarterDip(convertToInt.compareTo(compareToIntAnother));
+                }
+
+                mobileNetworksFinalUsage.setOldDataQuarter(mobileDataModel.getResult().getRecords().get(i).getVolume_of_mobile_data());
+
 
 
 
@@ -86,6 +98,7 @@ public class MobileDataPresenter {
                 mobileNetworksFinalUsage=new MobileNetworksFinalUsage();
                 mobileNetworksFinalUsage.setQuarter(mobileDataModel.getResult().getRecords().get(i).getQuarter().substring(0, 4));
                 mobileNetworksFinalUsage.setAddingQuartersData(mobileDataModel.getResult().getRecords().get(i).getVolume_of_mobile_data());
+                mobileNetworksFinalUsage.setOldDataQuarter(mobileDataModel.getResult().getRecords().get(i).getVolume_of_mobile_data());
                 hashMap.put(key, list);
                 if(key.equalsIgnoreCase("2018")){
                     mobileNetworksFinalUsageArrayList.add(mobileNetworksFinalUsage);

@@ -4,4 +4,5 @@
     <string name="year">Year - </string>
     <string name="mobile_data_usage">Mobile Data Usage Yearly -</string>
     <string name="toast_loading">Loading</string>
+    <string name="quarter_dip">Quarterly Usage of Mobile Data Drops</string>
 </resources>
