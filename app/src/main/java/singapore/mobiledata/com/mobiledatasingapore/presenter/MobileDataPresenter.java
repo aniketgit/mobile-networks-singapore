@@ -1,18 +1,25 @@
 package singapore.mobiledata.com.mobiledatasingapore.presenter;
+import android.util.Log;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.math.RoundingMode;
+import java.security.Key;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
-
-import rx.Observer;
-import rx.Subscription;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action0;
-
-
-import rx.schedulers.Schedulers;
-import rx.subscriptions.CompositeSubscription;
 import singapore.mobiledata.com.mobiledatasingapore.R;
 import singapore.mobiledata.com.mobiledatasingapore.model.MobileDataModel;
+import singapore.mobiledata.com.mobiledatasingapore.model.MobileDataRecords;
+import singapore.mobiledata.com.mobiledatasingapore.model.MobileNetworksFinalUsage;
 import singapore.mobiledata.com.mobiledatasingapore.view.MobileDataUsageView;
 import singapore.mobiledata.com.mobiledatasingapore.webservice.APICallInterface;
 import singapore.mobiledata.com.mobiledatasingapore.webservice.APIConnector;
@@ -20,12 +27,12 @@ import singapore.mobiledata.com.mobiledatasingapore.webservice.NoInternetExcepti
 
 public class MobileDataPresenter {
 
-    private final CompositeSubscription subscription;
+
     private MobileDataUsageView.View view;
 
     public MobileDataPresenter(MobileDataUsageView.View mobileDataUsageView) {
-        view=mobileDataUsageView;
-        subscription = new CompositeSubscription();
+        view = mobileDataUsageView;
+
     }
 
 
@@ -34,38 +41,61 @@ public class MobileDataPresenter {
      */
     public void getAllMobileDataUsageNUmbers() throws NoInternetException {
 
-        final Subscription subscription = APIConnector.getConnector().getMobileUsageData()
-                 .asObservable()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .doOnSubscribe(new Action0() {
-                    @Override
-                    public void call() {
+        Call<MobileDataModel> mobileDataModelCall = APIConnector.getConnector().getMobileUsageData("a807b7ab-6cad-4aa6-87d0-e283a7353a0f", 120);
+        mobileDataModelCall.enqueue(new Callback<MobileDataModel>() {
 
-                    }
-                })
-                .subscribe(new Observer<MobileDataModel>() {
-                    @Override
-                    public void onCompleted() {
-                        view.onFetchDataCompleted();
-                    }
+            @Override
+            public void onResponse(Call<MobileDataModel> call, Response<MobileDataModel> response) {
+                view.onFetchDataSuccess(response.body());
+                addQuartersInData(response.body());
+            }
 
-                    @Override
-                    public void onError(Throwable e) {
-                        view.onFetchDataError(e);
+            @Override
+            public void onFailure(Call<MobileDataModel> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void addQuartersInData(MobileDataModel mobileDataModel) {
+        MobileNetworksFinalUsage mobileNetworksFinalUsage=null;
+        List<MobileNetworksFinalUsage> mobileNetworksFinalUsageArrayList=new ArrayList<>();
+        HashMap<String, List<MobileDataModel>> hashMap = new HashMap<String, List<MobileDataModel>>();
+        for (int i = 0; i <= mobileDataModel.getResult().getRecords().size()-1 ; i++) {
+
+            String key = mobileDataModel.getResult().getRecords().get(i).getQuarter().substring(0, 4);
+            Log.e("key",key);
+            if (hashMap.containsKey(key)) {
+                List<MobileDataModel> list = hashMap.get(key);
+                list.add(mobileDataModel);
+                mobileNetworksFinalUsage.setQuarter(mobileDataModel.getResult().getRecords().get(i).getQuarter().substring(0, 4));
+
+                BigDecimal convertToInt= new BigDecimal(mobileDataModel.getResult().getRecords().get(i).getVolume_of_mobile_data());;
+                BigDecimal convertToIntAnother= new BigDecimal(mobileNetworksFinalUsage.getAddingQuartersData());
+
+                mobileNetworksFinalUsage.setAddingQuartersData(String.valueOf(convertToInt.add(convertToIntAnother)));
 
 
-                    }
 
+            } else {
+                if(i!=0) {
+                    mobileNetworksFinalUsageArrayList.add(mobileNetworksFinalUsage);
+                }
+                List<MobileDataModel> list = new ArrayList<MobileDataModel>();
+                list.add(mobileDataModel);
+                mobileNetworksFinalUsage=new MobileNetworksFinalUsage();
+                mobileNetworksFinalUsage.setQuarter(mobileDataModel.getResult().getRecords().get(i).getQuarter().substring(0, 4));
+                mobileNetworksFinalUsage.setAddingQuartersData(mobileDataModel.getResult().getRecords().get(i).getVolume_of_mobile_data());
+                hashMap.put(key, list);
+                if(key.equalsIgnoreCase("2018")){
+                    mobileNetworksFinalUsageArrayList.add(mobileNetworksFinalUsage);
+                }
+            }
 
+        }
 
-                    @Override
-                    public void onNext(MobileDataModel mobileDataModel) {
-                        view.onFetchDataSuccess(mobileDataModel);
-                    }
-                });
-
-        this.subscription.add(subscription);
+        view.onGettingYearData(mobileNetworksFinalUsageArrayList);
 
     }
 }
+

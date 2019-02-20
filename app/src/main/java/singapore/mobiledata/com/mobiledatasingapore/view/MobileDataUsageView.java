@@ -1,6 +1,9 @@
 package singapore.mobiledata.com.mobiledatasingapore.view;
 
+import java.util.List;
+
 import singapore.mobiledata.com.mobiledatasingapore.model.MobileDataModel;
+import singapore.mobiledata.com.mobiledatasingapore.model.MobileNetworksFinalUsage;
 
 public interface MobileDataUsageView {
 
@@ -11,6 +14,8 @@ public interface MobileDataUsageView {
         void onFetchDataCompleted();
 
         void onFetchDataSuccess(MobileDataModel mobileDataModel);
+
+        void onGettingYearData(List<MobileNetworksFinalUsage> mobileNetworksFinalUsage);
 
         void onFetchDataError(Throwable e);
     }

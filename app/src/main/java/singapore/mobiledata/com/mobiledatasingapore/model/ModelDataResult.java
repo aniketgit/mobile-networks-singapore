@@ -4,13 +4,14 @@ package singapore.mobiledata.com.mobiledatasingapore.model;
 import java.util.List;
 
 public class ModelDataResult {
-    public List<ModelDataResult> getMobileDataResults() {
-        return mobileDataResults;
+
+    public List<MobileDataRecords> getRecords() {
+        return records;
     }
 
-    public void setMobileDataResults(List<ModelDataResult> mobileDataResults) {
-        this.mobileDataResults = mobileDataResults;
+    public void setRecords(List<MobileDataRecords> records) {
+        this.records = records;
     }
 
-    private List<ModelDataResult> mobileDataResults;
+    private List<MobileDataRecords> records;
 }

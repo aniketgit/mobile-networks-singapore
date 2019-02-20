@@ -1,5 +1,7 @@
 package singapore.mobiledata.com.mobiledatasingapore.model;
 
+import java.util.List;
+
 public class MobileDataModel {
 
     private String help;
@@ -11,6 +13,7 @@ public class MobileDataModel {
     public void setHelp(String help) {
         this.help = help;
     }
+
 
     public ModelDataResult getResult() {
         return result;

@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">MobileDataSIngapore</string>
     <string name="fetching_data">Fetching Data</string>
+    <string name="year">Year - </string>
+    <string name="mobile_data_usage">Mobile Data Usage Yearly -</string>
+    <string name="toast_loading">Loading</string>
 </resources>

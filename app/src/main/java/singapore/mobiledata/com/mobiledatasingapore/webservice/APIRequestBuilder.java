@@ -1,5 +1,6 @@
 package singapore.mobiledata.com.mobiledatasingapore.webservice;
 
+
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
@@ -8,6 +9,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 import retrofit2.Retrofit;
+
 import retrofit2.converter.gson.GsonConverterFactory;
 
 
@@ -19,6 +21,7 @@ public class APIRequestBuilder {
     private static Retrofit mRetrofit = null;
 
     public static Retrofit apiBuilder() {
+
         OkHttpClient client = new OkHttpClient.Builder()
                 .connectTimeout(20, TimeUnit.SECONDS)
                 .readTimeout(30, TimeUnit.SECONDS)
@@ -33,12 +36,15 @@ public class APIRequestBuilder {
                         return response;
                     }
                 }).build();
+
         if(mRetrofit == null) {
             mRetrofit = new Retrofit.Builder().addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl("https://data.gov.sg/api/action/datastore_search")
+                    .baseUrl("https://data.gov.sg/api/action/")
                     .client(client)
                     .build();
         }
         return mRetrofit;
     }
+
+
 }
