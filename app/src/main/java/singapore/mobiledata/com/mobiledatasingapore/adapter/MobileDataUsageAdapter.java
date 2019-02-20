@@ -38,6 +38,7 @@ public class MobileDataUsageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
         listViewHolder.textYear.setText(list.get(position).getQuarter());
         listViewHolder.textUsageDataYear.setText(list.get(position).getAddingQuartersData());
         if(list.get(position).getIsQuarterDip()==-1){
+            listViewHolder.imageView.setVisibility(View.VISIBLE);
             listViewHolder.imageView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -45,6 +46,8 @@ public class MobileDataUsageAdapter extends RecyclerView.Adapter<RecyclerView.Vi
                 }
             });
         }else{
+            listViewHolder.imageView.setVisibility(View.GONE);
+
             listViewHolder.imageView.setOnClickListener(null);
 
         }

@@ -68,6 +68,7 @@
                     android:id="@+id/imageViewClick"
                     android:layout_width="30dp"
                     android:layout_height="30dp"
+                    android:visibility="gone"
                     android:src="@mipmap/ic_launcher"
                     android:layout_alignParentRight="true"/>
             </RelativeLayout>

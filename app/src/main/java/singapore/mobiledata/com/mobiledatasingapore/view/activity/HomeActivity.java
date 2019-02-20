@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -57,10 +58,14 @@ public class HomeActivity extends AppCompatActivity implements MobileDataUsageVi
 
     @Override
     public void onGettingYearData(List<MobileNetworksFinalUsage> mobileNetworksFinalUsage) {
-        mobileUsageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MobileDataUsageAdapter(this, mobileNetworksFinalUsage);
-        mobileUsageRecyclerView.setAdapter(adapter);
-        adapter.notifyDataSetChanged();
+        if(mobileNetworksFinalUsage.size()>0) {
+            mobileUsageRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+            adapter = new MobileDataUsageAdapter(this, mobileNetworksFinalUsage);
+            mobileUsageRecyclerView.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }else{
+            Toast.makeText(this,getString(R.string.please_try_again_later),Toast.LENGTH_LONG).show();
+        }
         dialog.dismiss();
     }
 
